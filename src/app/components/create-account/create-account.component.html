@@ -1,44 +1,42 @@
-<div class="card inner animated fadeIn fast">
-    <div class="card-body">
-        <h5 class="card-title">Formulario de Registro</h5>
+<form [formGroup]="myForm" (onSubmit)="doSomething()">
+    <div class="card inner animated fadeIn fast">
+        <div class="card-body">
+            <h5 class="card-title">Formulario de Registro</h5>
 
-        <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" class="form-control" id="nombre">
-        </div>
-        <div class="form-group">
-            <label for="apellido">Apellido</label>
-            <input type="text" class="form-control" id="apellido">
-        </div>
-        <div class="form-group">
-            <label for="email">Correo</label>
-            <input type="email" class="form-control" id="email" placeholder="name@example.com">
-        </div>
-        <div class="form-group">
-            <label for="celular">Celular</label>
-            <input type="text" class="form-control" id="celular">
-        </div>
-        <div class="form-group">
-            <label for="usuario">Usuario</label>
-            <input type="text" class="form-control" id="usuario">
-        </div>
-        <div class="form-group">
-            <label for="direccion">Dirección</label>
-            <input type="text" class="form-control" id="direccion">
-        </div>
-        <div class="form-group">
-            <label for="complementario">Torre/Apt/Casa</label>
-            <input type="text" class="form-control" id="complementario">
-        </div>
-        <div class="form-group">
-            <label for="contrasena">Password</label>
-            <input type="password" class="form-control" id="contrasena">
-        </div>
-        <div class="form-group">
-            <label for="contrasena">Repetir Password</label>
-            <input type="password" class="form-control" id="contrasena">
-        </div>
+            <div class="form-group">
+                <label for="nombre">Nombre*</label>
+                <input type="text" formControlName="nombrec" class="form-control" id="nombre">
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido*</label>
+                <input type="text" formControlName="apellidoc" class="form-control" id="apellido">
+            </div>
+            <div class="form-group">
+                <label for="email">Correo*</label>
+                <input type="email" formControlName="emailc" class="form-control" id="email" placeholder="name@example.com">
+            </div>
+            <div class="form-group">
+                <label for="celular">Celular*</label>
+                <input type="text" formControlName="celularc" class="form-control" id="celular">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección*</label>
+                <input type="text" formControlName="direccionc" class="form-control" id="direccion">
+            </div>
+            <div class="form-group">
+                <label for="complementario">Torre/Apt/Casa</label>
+                <input type="text" formControlName="complementarioc" class="form-control" id="complementario">
+            </div>
+            <div class="form-group">
+                <label for="contrasena">Password*</label>
+                <input type="password" formControlName="contrasenac" class="form-control" id="contrasena">
+            </div>
+            <div class="form-group">
+                <label for="recontrasena">Repetir Password*</label>
+                <input type="password" formControlName="recontrasenac" class="form-control" id="recontrasena">
+            </div>
 
-        <a href="#" class="btn btn-success">Registrar</a>
+            <button type="submit" class="btn btn-success" [disabled]="!myForm.valid">Registrar</button>
+        </div>
     </div>
-</div>
+</form>
