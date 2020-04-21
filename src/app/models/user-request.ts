@@ -1,8 +1,9 @@
-export class UserRequest {
-    UsuarioApellido = '';
-    UsuarioCelular = '';
-    UsuarioCorreo = '';
-    UsuarioDireccion = '';
-    UsuarioFechaNacimiento = '';
-    UsuarioNombre = '';
+export interface UserRequest {
+    UsuarioApellido: string;
+    UsuarioCelular: string;
+    UsuarioCorreo: string;
+    UsuarioDireccion: string;
+    UsuarioFechaNacimiento: string;
+    UsuarioNombre: string;
+    UsuarioPassword: string;
 }

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SignupService } from '../../services/signup.service';
+import { Observable } from 'rxjs';
+import { UserResponse } from '../../models/user-response';
+import { UserRequest } from 'src/app/models/user-request';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-account',
@@ -11,30 +15,54 @@ export class CreateAccountComponent implements OnInit {
 
   myForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private _service:SignupService) {
+  signUser: Observable<UserResponse>;
+  response: UserResponse;
+
+  constructor(private fb: FormBuilder, private service: SignupService, private router: Router) {
     console.log('constructor exitoso');
+    this.myForm = fb.group({
+      nombre: [null, Validators.required],
+      apellido: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      celular: [null, Validators.required],
+      direccion: [null, Validators.required],
+      complementario: [null, null],
+      contrasena: [null, Validators.required],
+      recontrasena: [null, Validators.required]
+    });
    }
 
   ngOnInit(): void {
     console.log('ngOnInit exitoso');
-    this.myForm = this.fb.group({
-      nombrec: new FormControl('', [Validators.required]),
-      apellidoc: new FormControl('', [Validators.required]),
-      emailc: new FormControl('', [
-        Validators.required,
-        Validators.email
-      ]),
-      celularc: new FormControl('', [Validators.required]),
-      direccionc: new FormControl('', [Validators.required]),
-      complementarioc: new FormControl(''),
-      contrasenac: new FormControl('', [Validators.required]),
-      recontrasenac: new FormControl('', [Validators.required])
-    });
   }
 
   doSomething() {
-    const email = this.myForm.get('emailc').value;
-    console.log('**********************' + email);
+    let request: UserRequest;
+    request = {
+      UsuarioApellido: this.myForm.get('apellido').value,
+      UsuarioCelular: this.myForm.get('celular').value,
+      UsuarioCorreo: this.myForm.get('email').value,
+      UsuarioDireccion: this.myForm.get('direccion').value + this.myForm.get('complementario').value,
+      UsuarioFechaNacimiento: '1994-10-24',
+      UsuarioNombre: this.myForm.get('nombre').value,
+      UsuarioPassword: this.myForm.get('contrasena').value
+    };
+
+    this.signUser = this.service.createNewUser(request);
+    this.signUser.subscribe( results => {
+      this.response = results;
+      if (this.response.gx_md5_hash !== '') {
+        this.router.navigate(['inicio']);
+      }
+    }, err => {
+      console.log('**********************' + err);
+    });
+
   }
+
+  isPersonalDataFieldValid(field: string) {
+    return !this.myForm.get(field).valid && this.myForm.get(field).touched;
+  }
+
 
 }
