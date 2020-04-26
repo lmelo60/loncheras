@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { SignupService } from '../../services/signup.service';
 import { Observable } from 'rxjs';
 import { UserResponse } from '../../models/user-response';
@@ -27,8 +27,10 @@ export class CreateAccountComponent implements OnInit {
       celular: [null, Validators.required],
       direccion: [null, Validators.required],
       complementario: [null, null],
-      contrasena: [null, Validators.required],
-      recontrasena: [null, Validators.required]
+      passwords: this.fb.group({
+        contrasena: [null, Validators.required],
+        recontrasena: [null, Validators.required]
+    }, {validator: this.passwordConfirming})
     });
    }
 
@@ -58,6 +60,14 @@ export class CreateAccountComponent implements OnInit {
       console.log('**********************' + err);
     });
 
+  }
+
+  get passwords() { return this.myForm.get('passwords'); }
+
+  passwordConfirming(c: AbstractControl): { invalid: boolean } {
+    if (c.get('contrasena').value !== c.get('recontrasena').value) {
+        return {invalid: true};
+    }
   }
 
   isPersonalDataFieldValid(field: string) {
