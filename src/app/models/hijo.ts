@@ -3,6 +3,7 @@ export interface Hijo {
     HijoId?: number;
     HijoNombre: string;
     HijoPeso: number;
-    UsuarioId?: number;
+    UsuarioId: number;
     UsuarioNombre?: string;
+    gx_md5_hash?: string;
 }
