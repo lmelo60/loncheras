@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 // Rutas
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +24,7 @@ import { MainComponent } from './components/main/main.component';
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgxSpinnerModule,
     AppRoutingModule
   ],
   providers: [],

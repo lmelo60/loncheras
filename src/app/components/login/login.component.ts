@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { LoginRequest } from 'src/app/models/login-request';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   loginUser: Observable<LoginResponse>;
   response: LoginResponse;
 
-  constructor(private fb: FormBuilder, private service: LoginService, private router: Router) {
+  constructor(private fb: FormBuilder, private service: LoginService, private router: Router, private spinner: NgxSpinnerService) {
     console.log('constructor exitoso');
     this.myForm = fb.group({
       usuario: [null, Validators.required],
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   doSomething() {
+    this.spinner.show();
     let request: LoginRequest;
     request = {
       UsuarioCorreo: this.myForm.get('usuario').value,
@@ -40,9 +42,11 @@ export class LoginComponent implements OnInit {
     this.loginUser.subscribe( results => {
       this.response = results;
       if (this.response.Respuesta !== '') {
+        this.spinner.hide();
         this.router.navigate(['inicio/principal']);
       }
     }, err => {
+      this.spinner.hide();
       console.log('**********************' + err);
     });
   }

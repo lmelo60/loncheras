@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { UserResponse } from '../../models/user-response';
 import { UserRequest } from 'src/app/models/user-request';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-create-account',
@@ -18,7 +19,7 @@ export class CreateAccountComponent implements OnInit {
   signUser: Observable<UserResponse>;
   response: UserResponse;
 
-  constructor(private fb: FormBuilder, private service: SignupService, private router: Router) {
+  constructor(private fb: FormBuilder, private service: SignupService, private router: Router, private spinner: NgxSpinnerService) {
     console.log('constructor exitoso');
     this.myForm = fb.group({
       nombre: [null, Validators.required],
@@ -39,6 +40,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   doSomething() {
+    this.spinner.show();
     let request: UserRequest;
     request = {
       UsuarioApellido: this.myForm.get('apellido').value,
@@ -47,16 +49,18 @@ export class CreateAccountComponent implements OnInit {
       UsuarioDireccion: this.myForm.get('direccion').value + this.myForm.get('complementario').value,
       UsuarioFechaNacimiento: '1994-10-24',
       UsuarioNombre: this.myForm.get('nombre').value,
-      UsuarioPassword: this.myForm.get('contrasena').value
+      UsuarioPassword: this.myForm.get('passwords.contrasena').value
     };
 
     this.signUser = this.service.createNewUser(request);
     this.signUser.subscribe( results => {
       this.response = results;
       if (this.response.gx_md5_hash !== '') {
+        this.spinner.hide();
         this.router.navigate(['inicio']);
       }
     }, err => {
+      this.spinner.hide();
       console.log('**********************' + err);
     });
 
