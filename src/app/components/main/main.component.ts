@@ -6,6 +6,8 @@ import { ListHijosResponse } from '../../models/listHijos-response';
 import { ChildrenService } from '../../services/children.service';
 import { ListHijosRequest } from 'src/app/models/listHijos-request';
 import { Hijo } from '../../models/hijo';
+import { Combo } from '../../models/combo-response';
+import { MenuService } from '../../services/menu.service';
 
 @Component({
   selector: 'app-main',
@@ -24,7 +26,11 @@ export class MainComponent implements OnInit {
   agregarHijo: Observable<Hijo>;
   responseHijo: Hijo;
 
-  constructor(private fb: FormBuilder, private spinner: NgxSpinnerService, private service: ChildrenService) {
+  listarCombos: Observable<Array<Combo>>;
+  responseListarCombos: Array<Combo>;
+
+  constructor(private fb: FormBuilder, private spinner: NgxSpinnerService, private service: ChildrenService,
+              private serviceMenu: MenuService) {
     console.log('constructor exitoso');
 
     this.myForm = fb.group({
@@ -36,8 +42,8 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('ngOnInit exitoso');
-    this.tieneHijos();
     this.spinner.show();
+    this.tieneHijos();
   }
 
   tieneHijos(): void {
@@ -60,17 +66,31 @@ export class MainComponent implements OnInit {
         if (this.responseListarHijos.SDTHijos.length > 0) {
           localStorage.setItem('hijos', JSON.stringify(this.responseListarHijos.SDTHijos));
           this.spinner.hide();
+          this.obtenerCombos();
           this.hijos =  true;
         } else {
           this.hijos =  false;
           this.spinner.hide();
         }
-      }, err => {
-        console.log('**********************' + JSON.parse(err));
+      }, error => {
+        console.log('**********************' + JSON.parse(error));
         this.spinner.hide();
         this.hijos =  false;
       });
     }
+  }
+
+  obtenerCombos(): void {
+    this.spinner.show();
+    this.listarCombos = this.serviceMenu.listarMenu();
+    this.listarCombos.subscribe( results => {
+      this.responseListarCombos = results;
+      console.log('**********************' + this.responseListarCombos);
+      this.spinner.hide();
+    }, error => {
+      console.log('**********************' + JSON.parse(error));
+      this.spinner.hide();
+    });
   }
 
   isPersonalDataFieldValid(field: string) {
@@ -99,8 +119,8 @@ export class MainComponent implements OnInit {
         this.hijos = true;
         this.spinner.hide();
       }
-    }, err => {
-      console.log('**********************' + JSON.parse(err));
+    }, error => {
+      console.log('**********************' + JSON.parse(error));
       this.spinner.hide();
       this.hijos =  false;
     });
@@ -130,8 +150,8 @@ export class MainComponent implements OnInit {
         this.myForm.get('peso').reset();
         this.spinner.hide();
       }
-    }, err => {
-      console.log('**********************' + JSON.parse(err));
+    }, error => {
+      console.log('**********************' + JSON.parse(error));
       this.spinner.hide();
     });
   }

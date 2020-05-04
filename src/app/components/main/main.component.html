@@ -49,5 +49,25 @@
         <div>
             <span>Le invitamos a solicitar cualquiera de los siguientes menús .</span>
         </div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm" *ngFor="let combo of responseListarCombos">
+                    <div class="card">
+                        <img class="card-img-top" src="../../../assets/img/menu.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{combo.ComboNombre}}</h5>
+                            <p class="card-text">Este combo esta compuesto por:</p>
+                        </div>
+                        <ul class="list-group list-group-flush" *ngFor="let alimento of combo.Alimentos">
+                            <li class="list-group-item"><b>{{alimento.AlimentoNombre}}</b></li>
+                        </ul>
+                        <div class="card-body">
+                            <button type="submit" class="btn btn-success">Siguiente</button>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
