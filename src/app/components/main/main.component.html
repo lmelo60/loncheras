@@ -84,13 +84,13 @@
 
                 <div class="col-sm">
                     <div class="card">
-                        <img class="card-img-top" src="../../../assets/img/proteina.jpg" height="85" alt="Card image cap">
+                        <img class="card-img-top" src="../../../assets/img/proteina.jpg" height="90" width="200" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Proteínas</h5>
                         </div>
                         <div class="card-body">
                             <select class="custom-select">
-                                <option *ngFor="let item of listProteinas" [selected]="item.AlimentoId === elegidoP" value="1">{{item.AlimentoNombre}}</option>
+                                <option *ngFor="let item of listProteinas" [value]="valueSelectP" [selected]="item.AlimentoId === elegidoP" value="{{item.AlimentoNombre}}-{{item.AlimentoId}}">{{item.AlimentoNombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -99,13 +99,13 @@
 
                 <div class="col-sm">
                     <div class="card">
-                        <img class="card-img-top" src="../../../assets/img/liquido.jpg" height="85" alt="Card image cap">
+                        <img class="card-img-top" src="../../../assets/img/liquido.jpg" height="90" width="200" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Líquidos</h5>
                         </div>
                         <div class="card-body">
                             <select class="custom-select">
-                                <option *ngFor="let item of listLiquidos" [selected]="item.AlimentoId === elegidoL" value="1">{{item.AlimentoNombre}}</option>
+                                <option *ngFor="let item of listLiquidos" [value]="valueSelectL" [selected]="item.AlimentoId === elegidoL" value="{{item.AlimentoNombre}}-{{item.AlimentoId}}">{{item.AlimentoNombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -114,13 +114,13 @@
 
                 <div class="col-sm">
                     <div class="card">
-                        <img class="card-img-top" src="../../../assets/img/energetico.jpg" height="85" alt="Card image cap">
+                        <img class="card-img-top" src="../../../assets/img/energetico.jpg" height="90" width="200" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Energéticos</h5>
                         </div>
                         <div class="card-body">
                             <select class="custom-select">
-                                <option *ngFor="let item of listEnergeticos" [selected]="item.AlimentoId === elegidoE" value="1">{{item.AlimentoNombre}}</option>
+                                <option *ngFor="let item of listEnergeticos" [value]="valueSelectE" [selected]="item.AlimentoId === elegidoE" value="{{item.AlimentoNombre}}-{{item.AlimentoId}}">{{item.AlimentoNombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -129,37 +129,39 @@
 
                 <div class="col-sm">
                     <div class="card">
-                        <img class="card-img-top" src="../../../assets/img/regulador.jpg" height="85" alt="Card image cap">
+                        <img class="card-img-top" src="../../../assets/img/regulador.jpg" width="200" height="90" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Reguladores</h5>
                         </div>
                         <div class="card-body">
                             <select class="custom-select">
-                                <option *ngFor="let item of listReguladores" [selected]="item.AlimentoId === elegidoR" value="1">{{item.AlimentoNombre}}</option>
+                                <option *ngFor="let item of listReguladores" [value]="valueSelectR" [selected]="item.AlimentoId === elegidoR" value="{{item.AlimentoNombre}}-{{item.AlimentoId}}">{{item.AlimentoNombre}}</option>
                             </select>
                         </div>
                     </div>
                     <br>
                 </div>
 
-                <div class="form-group" style="text-align: center; margin: auto; padding-bottom: 15px;">
-                    <select class="custom-select">
-                        <option selected>Selecciona tu hij@</option>
-                        <option value="{{hijo.HijoId}}" *ngFor="let hijo of responseListarHijos.SDTHijos">{{hijo.HijoNombre}}</option>
-                    </select>
-                </div>
+            </div>
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm" style="text-align: center;">
-                            <button type="submit" class="btn btn-success">Solicitar</button>
-                        </div>
-                        <div class="col-sm" style="text-align: center;">
-                            <button type="submit" (click)="declinar()" class="btn btn-success">Cancelar</button>
-                        </div>
+            <div class="form-group" style="text-align: center; margin: auto; padding-bottom: 15px;">
+                <select class="custom-select">
+                    <option selected>Selecciona tu hij@</option>
+                    <option value="{{hijo.HijoId}}" *ngFor="let hijo of responseListarHijos.SDTHijos">{{hijo.HijoNombre}}</option>
+                </select>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm" style="text-align: center;">
+                        <button type="submit" (click)="pedir()" class="btn btn-success">Solicitar</button>
+                    </div>
+                    <div class="col-sm" style="text-align: center;">
+                        <button type="submit" (click)="declinar()" class="btn btn-success">Cancelar</button>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

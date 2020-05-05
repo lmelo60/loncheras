@@ -46,6 +46,11 @@ export class MainComponent implements OnInit {
   elegidoE: number;
   elegidoR: number;
 
+  valueSelectP: string;
+  valueSelectL: string;
+  valueSelectE: string;
+  valueSelectR: string;
+
   constructor(private fb: FormBuilder, private spinner: NgxSpinnerService, private service: ChildrenService,
               private serviceMenu: MenuService) {
     console.log('constructor exitoso');
@@ -60,6 +65,11 @@ export class MainComponent implements OnInit {
     this.elegidoL = 0;
     this.elegidoE = 0;
     this.elegidoR = 0;
+
+    this.valueSelectP = '';
+    this.valueSelectL = '';
+    this.valueSelectE = '';
+    this.valueSelectR = '';
 
     this.myForm = fb.group({
       nombre: [null, Validators.required],
@@ -250,6 +260,13 @@ export class MainComponent implements OnInit {
 
   declinar() {
     this.menu = false;
+  }
+
+  pedir() {
+    console.log(this.valueSelectP);
+    console.log(this.valueSelectL);
+    console.log(this.valueSelectE );
+    console.log(this.valueSelectR);
   }
 
 }
