@@ -8,6 +8,8 @@ import { ListHijosRequest } from 'src/app/models/listHijos-request';
 import { Hijo } from '../../models/hijo';
 import { Combo } from '../../models/combo-response';
 import { MenuService } from '../../services/menu.service';
+import { AlimentoCombo } from '../../models/alimento-combo';
+import { AlimentosResponse } from '../../models/alimentos-response';
 
 @Component({
   selector: 'app-main',
@@ -17,6 +19,7 @@ import { MenuService } from '../../services/menu.service';
 export class MainComponent implements OnInit {
 
   hijos: boolean;
+  menu: boolean;
 
   myForm: FormGroup;
 
@@ -29,9 +32,34 @@ export class MainComponent implements OnInit {
   listarCombos: Observable<Array<Combo>>;
   responseListarCombos: Array<Combo>;
 
+  listarAlimentos: Observable<Array<AlimentosResponse>>;
+  responseAlimentos: Array<AlimentosResponse>;
+
+  Alimentos: Array<AlimentoCombo>;
+
+  listProteinas: Array<any>;
+  listLiquidos: Array<any>;
+  listEnergeticos: Array<any>;
+  listReguladores: Array<any>;
+  elegidoP: number;
+  elegidoL: number;
+  elegidoE: number;
+  elegidoR: number;
+
   constructor(private fb: FormBuilder, private spinner: NgxSpinnerService, private service: ChildrenService,
               private serviceMenu: MenuService) {
     console.log('constructor exitoso');
+
+    this.menu = false;
+
+    this.listProteinas = new Array<any>();
+    this.listLiquidos = new Array<any>();
+    this.listEnergeticos = new Array<any>();
+    this.listReguladores = new Array<any>();
+    this.elegidoP = 0;
+    this.elegidoL = 0;
+    this.elegidoE = 0;
+    this.elegidoR = 0;
 
     this.myForm = fb.group({
       nombre: [null, Validators.required],
@@ -85,7 +113,19 @@ export class MainComponent implements OnInit {
     this.listarCombos = this.serviceMenu.listarMenu();
     this.listarCombos.subscribe( results => {
       this.responseListarCombos = results;
-      console.log('**********************' + this.responseListarCombos);
+      this.spinner.hide();
+      this.obtenerAlimentos();
+    }, error => {
+      console.log('**********************' + JSON.parse(error));
+      this.spinner.hide();
+    });
+  }
+
+  obtenerAlimentos(): void {
+    this.spinner.show();
+    this.listarAlimentos = this.serviceMenu.listarAlimentos();
+    this.listarAlimentos.subscribe( results => {
+      this.responseAlimentos = results;
       this.spinner.hide();
     }, error => {
       console.log('**********************' + JSON.parse(error));
@@ -154,6 +194,62 @@ export class MainComponent implements OnInit {
       console.log('**********************' + JSON.parse(error));
       this.spinner.hide();
     });
+  }
+
+  solicitar(comboId: number) {
+    this.spinner.show();
+    this.menu = true;
+
+    this.responseListarCombos.forEach(row => {
+      if (row.ComboId === comboId) {
+          this.Alimentos = row.Alimentos;
+      }
+    });
+
+    this.responseAlimentos.forEach(row => {
+      if (row.TipoAlimentoId === 1) {
+
+        this.listProteinas.push(row);
+        this.Alimentos.forEach(aux => {
+          if (aux.AlimentoId === row.AlimentoId) {
+              this.elegidoP = row.AlimentoId;
+          }
+        });
+
+      } else if (row.TipoAlimentoId === 2) {
+
+        this.listLiquidos.push(row);
+        this.Alimentos.forEach(aux => {
+          if (aux.AlimentoId === row.AlimentoId) {
+              this.elegidoL = row.AlimentoId;
+          }
+        });
+
+      } else if (row.TipoAlimentoId === 3) {
+
+        this.listEnergeticos.push(row);
+        this.Alimentos.forEach(aux => {
+          if (aux.AlimentoId === row.AlimentoId) {
+              this.elegidoE = row.AlimentoId;
+          }
+        });
+
+      } else if (row.TipoAlimentoId === 4) {
+
+        this.listReguladores.push(row);
+        this.Alimentos.forEach(aux => {
+          if (aux.AlimentoId === row.AlimentoId) {
+              this.elegidoR = row.AlimentoId;
+          }
+        });
+
+      }
+    });
+    this.spinner.hide();
+  }
+
+  declinar() {
+    this.menu = false;
   }
 
 }
