@@ -20,12 +20,15 @@ export class LoginComponent implements OnInit {
 
   loginDate: any;
 
+  errorLogin: boolean;
+
   loginUser: Observable<LoginResponse>;
   response: LoginResponse;
 
   constructor(private fb: FormBuilder, private service: LoginService, private router: Router,
               private spinner: NgxSpinnerService, private datePipe: DatePipe) {
     console.log('constructor exitoso');
+    this.errorLogin = false;
     this.myForm = fb.group({
       usuario: [null, Validators.required],
       contrasena: [null, Validators.required]
@@ -46,7 +49,8 @@ export class LoginComponent implements OnInit {
     this.loginUser = this.service.login(request);
     this.loginUser.subscribe( results => {
       this.response = results;
-      if (this.response.Respuesta !== '') {
+      if (this.response.Respuesta !== '' && this.response.Respuesta !== 'Usuario no existe, UsuarioId: 0') {
+        this.errorLogin = false;
         this.loginDate = new Date();
         this.loginDate = this.datePipe.transform(this.loginDate, 'dd-MM-yyyy HH:mm:ss');
         const splitted = this.response.Respuesta.split(':', 2);
@@ -56,10 +60,14 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('usertoken', usertoken);
         this.spinner.hide();
         this.router.navigate(['inicio/principal']);
+      } else {
+        this.errorLogin = true;
+        this.spinner.hide();
       }
-    }, err => {
+    }, error => {
       this.spinner.hide();
-      console.log('**********************' + err);
+      console.log('**********************' + error);
+      this.router.navigate(['inicio']);
     });
   }
 

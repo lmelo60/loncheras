@@ -10,6 +10,9 @@ import { Combo } from '../../models/combo-response';
 import { MenuService } from '../../services/menu.service';
 import { AlimentoCombo } from '../../models/alimento-combo';
 import { AlimentosResponse } from '../../models/alimentos-response';
+import { SolicitudResponse } from '../../models/solicitud-response';
+import { SolicitudRequest } from 'src/app/models/solicitud-request';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-main',
@@ -36,6 +39,9 @@ export class MainComponent implements OnInit {
 
   listarAlimentos: Observable<Array<AlimentosResponse>>;
   responseAlimentos: Array<AlimentosResponse>;
+
+  crearSolicitud: Observable<SolicitudResponse>;
+  responseSolicitud: SolicitudResponse;
 
   Alimentos: Array<AlimentoCombo>;
 
@@ -280,21 +286,50 @@ export class MainComponent implements OnInit {
   }
 
   pedir() {
-
+    this.spinner.show();
     this.selectListP = this.menuForm.get('selectListP').value;
     this.selectListL = this.menuForm.get('selectListL').value;
     this.selectListE = this.menuForm.get('selectListE').value;
     this.selectListR = this.menuForm.get('selectListR').value;
     let selectHijo: Hijo = this.selectHijo.value;
-    if ( selectHijo.HijoNombre === null || selectHijo.HijoNombre === undefined ) {
-      this.noHijo = true;
-    }
-    console.log(this.selectListP.AlimentoNombre);
-    console.log(this.selectListL.AlimentoNombre);
-    console.log(this.selectListE.AlimentoNombre);
-    console.log(this.selectListR.AlimentoNombre);
-    console.log(selectHijo.HijoNombre);
 
+    if ( selectHijo.HijoNombre === null || selectHijo.HijoNombre === undefined ) {
+
+      this.noHijo = true;
+      this.spinner.hide();
+
+    } else {
+
+      let arrayAlimentos: Array<AlimentoCombo>;
+      arrayAlimentos = new Array<AlimentoCombo>();
+      arrayAlimentos.push({AlimentoId: this.selectListP.AlimentoId});
+      arrayAlimentos.push({AlimentoId: this.selectListL.AlimentoId});
+      arrayAlimentos.push({AlimentoId: this.selectListE.AlimentoId});
+      arrayAlimentos.push({AlimentoId: this.selectListR.AlimentoId});
+
+      let solicitudRq: SolicitudRequest;
+      solicitudRq = {
+        HijoId: selectHijo.HijoId,
+        TipoAlimento: arrayAlimentos
+      };
+
+      this.crearSolicitud = this.serviceMenu.crearSolicitud(solicitudRq);
+      this.crearSolicitud.subscribe(results => {
+        this.responseSolicitud = results;
+        if (this.responseSolicitud.gx_md5_hash !== '') {
+          this.spinner.hide();
+          console.log('Solicitud creada perfectamente');
+          this.menu = false;
+        } else {
+          this.spinner.hide();
+          console.log('No fue posible crear la Solicitud');
+        }
+      },  error => {
+        console.log('**********Error Solicitud************' + JSON.parse(error));
+        this.spinner.hide();
+      });
+
+    }
   }
 
 }

@@ -18,7 +18,11 @@
                 <span class="text-danger">Error en campo</span>
             </div>
         </div>
-
+        <div class="form-group" *ngIf="errorLogin">
+            <div>
+                <span class="text-danger">Por favor validar los datos ingresados</span>
+            </div>
+        </div>
         <div class="form-group">
             <a [routerLink]="['registro']" id="signup">Cree una cuenta.</a>
         </div>
