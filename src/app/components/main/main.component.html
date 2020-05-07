@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="hijos && menu">
+    <form [formGroup]="menuForm" *ngIf="hijos && menu">
         <div class="form-group">
             <h5 class="card-title">Bienvenido a loncheras saludables</h5>
         </div>
@@ -89,8 +89,8 @@
                             <h5 class="card-title">Proteínas</h5>
                         </div>
                         <div class="card-body">
-                            <select class="custom-select">
-                                <option *ngFor="let item of listProteinas" [value]="valueSelectP" [selected]="item.AlimentoId === elegidoP" value="{{item.AlimentoNombre}}-{{item.AlimentoId}}">{{item.AlimentoNombre}}</option>
+                            <select class="form-control field-click custom-select" required formControlName="selectListP">
+                                <option *ngFor="let item of listProteinas" [ngValue]="item">{{item.AlimentoNombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -104,8 +104,8 @@
                             <h5 class="card-title">Líquidos</h5>
                         </div>
                         <div class="card-body">
-                            <select class="custom-select">
-                                <option *ngFor="let item of listLiquidos" [value]="valueSelectL" [selected]="item.AlimentoId === elegidoL" value="{{item.AlimentoNombre}}-{{item.AlimentoId}}">{{item.AlimentoNombre}}</option>
+                            <select class="form-control field-click custom-select" required formControlName="selectListL">
+                                <option *ngFor="let item of listLiquidos" [ngValue]="item">{{item.AlimentoNombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -119,8 +119,8 @@
                             <h5 class="card-title">Energéticos</h5>
                         </div>
                         <div class="card-body">
-                            <select class="custom-select">
-                                <option *ngFor="let item of listEnergeticos" [value]="valueSelectE" [selected]="item.AlimentoId === elegidoE" value="{{item.AlimentoNombre}}-{{item.AlimentoId}}">{{item.AlimentoNombre}}</option>
+                            <select class="form-control field-click custom-select" required formControlName="selectListE">
+                                <option *ngFor="let item of listEnergeticos" [ngValue]="item">{{item.AlimentoNombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -134,8 +134,8 @@
                             <h5 class="card-title">Reguladores</h5>
                         </div>
                         <div class="card-body">
-                            <select class="custom-select">
-                                <option *ngFor="let item of listReguladores" [value]="valueSelectR" [selected]="item.AlimentoId === elegidoR" value="{{item.AlimentoNombre}}-{{item.AlimentoId}}">{{item.AlimentoNombre}}</option>
+                            <select class="form-control field-click custom-select" required formControlName="selectListR">
+                                <option *ngFor="let item of listReguladores" [ngValue]="item">{{item.AlimentoNombre}}</option>
                             </select>
                         </div>
                     </div>
@@ -145,10 +145,13 @@
             </div>
 
             <div class="form-group" style="text-align: center; margin: auto; padding-bottom: 15px;">
-                <select class="custom-select">
-                    <option selected>Selecciona tu hij@</option>
-                    <option value="{{hijo.HijoId}}" *ngFor="let hijo of responseListarHijos.SDTHijos">{{hijo.HijoNombre}}</option>
+                <select class="form-control field-click custom-select" required formControlName="selectHijo" (change)="changeHijo()">
+                    <option value="0" disabled [selected]>Selecciona tu hij@</option>
+                    <option *ngFor="let hijo of responseListarHijos.SDTHijos" [ngValue]="hijo">{{hijo.HijoNombre}}</option>
                 </select>
+                <div *ngIf="noHijo">
+                    <span class="text-danger">Seleccione una opción</span>
+                </div>
             </div>
 
             <div class="container">
@@ -163,5 +166,5 @@
             </div>
 
         </div>
-    </div>
+    </form>
 </div>

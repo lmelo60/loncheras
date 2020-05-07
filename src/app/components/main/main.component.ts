@@ -20,8 +20,10 @@ export class MainComponent implements OnInit {
 
   hijos: boolean;
   menu: boolean;
+  noHijo: boolean;
 
   myForm: FormGroup;
+  menuForm: FormGroup;
 
   listarHijos: Observable<ListHijosResponse>;
   responseListarHijos: ListHijosResponse;
@@ -41,40 +43,36 @@ export class MainComponent implements OnInit {
   listLiquidos: Array<any>;
   listEnergeticos: Array<any>;
   listReguladores: Array<any>;
-  elegidoP: number;
-  elegidoL: number;
-  elegidoE: number;
-  elegidoR: number;
 
-  valueSelectP: string;
-  valueSelectL: string;
-  valueSelectE: string;
-  valueSelectR: string;
+  selectListP: AlimentosResponse;
+  selectListL: AlimentosResponse;
+  selectListE: AlimentosResponse;
+  selectListR: AlimentosResponse;
 
   constructor(private fb: FormBuilder, private spinner: NgxSpinnerService, private service: ChildrenService,
               private serviceMenu: MenuService) {
     console.log('constructor exitoso');
 
     this.menu = false;
+    this.noHijo = false;
 
     this.listProteinas = new Array<any>();
     this.listLiquidos = new Array<any>();
     this.listEnergeticos = new Array<any>();
     this.listReguladores = new Array<any>();
-    this.elegidoP = 0;
-    this.elegidoL = 0;
-    this.elegidoE = 0;
-    this.elegidoR = 0;
-
-    this.valueSelectP = '';
-    this.valueSelectL = '';
-    this.valueSelectE = '';
-    this.valueSelectR = '';
 
     this.myForm = fb.group({
       nombre: [null, Validators.required],
       edad: [null, Validators.required],
       peso: [null, Validators.required]
+    });
+
+    this.menuForm = fb.group({
+      selectListP: [null, Validators.required],
+      selectListL: [null, Validators.required],
+      selectListE: [null, Validators.required],
+      selectListR: [null, Validators.required],
+      selectHijo: [null, Validators.required]
     });
   }
 
@@ -85,7 +83,7 @@ export class MainComponent implements OnInit {
   }
 
   tieneHijos(): void {
-    this.hijos =  false;
+    this.hijos = false;
     let usertoken = localStorage.getItem('usertoken');
     if (usertoken !== '') {
       usertoken = atob(usertoken);
@@ -99,21 +97,21 @@ export class MainComponent implements OnInit {
       };
 
       this.listarHijos = this.service.listarHijos(request);
-      this.listarHijos.subscribe( results => {
+      this.listarHijos.subscribe(results => {
         this.responseListarHijos = results;
         if (this.responseListarHijos.SDTHijos.length > 0) {
           localStorage.setItem('hijos', JSON.stringify(this.responseListarHijos.SDTHijos));
           this.spinner.hide();
           this.obtenerCombos();
-          this.hijos =  true;
+          this.hijos = true;
         } else {
-          this.hijos =  false;
+          this.hijos = false;
           this.spinner.hide();
         }
       }, error => {
         console.log('**********************' + JSON.parse(error));
         this.spinner.hide();
-        this.hijos =  false;
+        this.hijos = false;
       });
     }
   }
@@ -121,7 +119,7 @@ export class MainComponent implements OnInit {
   obtenerCombos(): void {
     this.spinner.show();
     this.listarCombos = this.serviceMenu.listarMenu();
-    this.listarCombos.subscribe( results => {
+    this.listarCombos.subscribe(results => {
       this.responseListarCombos = results;
       this.spinner.hide();
       this.obtenerAlimentos();
@@ -134,7 +132,7 @@ export class MainComponent implements OnInit {
   obtenerAlimentos(): void {
     this.spinner.show();
     this.listarAlimentos = this.serviceMenu.listarAlimentos();
-    this.listarAlimentos.subscribe( results => {
+    this.listarAlimentos.subscribe(results => {
       this.responseAlimentos = results;
       this.spinner.hide();
     }, error => {
@@ -145,6 +143,10 @@ export class MainComponent implements OnInit {
 
   isPersonalDataFieldValid(field: string) {
     return !this.myForm.get(field).valid && this.myForm.get(field).touched;
+  }
+
+  DataFieldValid(field: string) {
+    return !this.menuForm.get(field).valid && this.menuForm.get(field).touched && (this.menuForm.get(field).value !== 'undefined');
   }
 
   doSomething() {
@@ -163,7 +165,7 @@ export class MainComponent implements OnInit {
       UsuarioId: usuario
     };
     this.agregarHijo = this.service.insertarHijo(request);
-    this.agregarHijo.subscribe( results => {
+    this.agregarHijo.subscribe(results => {
       this.responseHijo = results;
       if (this.responseHijo.gx_md5_hash !== '') {
         this.hijos = true;
@@ -172,7 +174,7 @@ export class MainComponent implements OnInit {
     }, error => {
       console.log('**********************' + JSON.parse(error));
       this.spinner.hide();
-      this.hijos =  false;
+      this.hijos = false;
     });
   }
 
@@ -192,7 +194,7 @@ export class MainComponent implements OnInit {
       UsuarioId: usuario
     };
     this.agregarHijo = this.service.insertarHijo(request);
-    this.agregarHijo.subscribe( results => {
+    this.agregarHijo.subscribe(results => {
       this.responseHijo = results;
       if (this.responseHijo.gx_md5_hash !== '') {
         this.myForm.get('nombre').reset();
@@ -210,9 +212,16 @@ export class MainComponent implements OnInit {
     this.spinner.show();
     this.menu = true;
 
+    this.listProteinas = new Array<any>();
+    this.listLiquidos = new Array<any>();
+    this.listEnergeticos = new Array<any>();
+    this.listReguladores = new Array<any>();
+
+    this.menuForm.patchValue({selectHijo: '0'});
+
     this.responseListarCombos.forEach(row => {
       if (row.ComboId === comboId) {
-          this.Alimentos = row.Alimentos;
+        this.Alimentos = row.Alimentos;
       }
     });
 
@@ -222,7 +231,7 @@ export class MainComponent implements OnInit {
         this.listProteinas.push(row);
         this.Alimentos.forEach(aux => {
           if (aux.AlimentoId === row.AlimentoId) {
-              this.elegidoP = row.AlimentoId;
+            this.menuForm.patchValue({selectListP: row});
           }
         });
 
@@ -231,7 +240,7 @@ export class MainComponent implements OnInit {
         this.listLiquidos.push(row);
         this.Alimentos.forEach(aux => {
           if (aux.AlimentoId === row.AlimentoId) {
-              this.elegidoL = row.AlimentoId;
+            this.menuForm.patchValue({selectListL: row});
           }
         });
 
@@ -240,7 +249,7 @@ export class MainComponent implements OnInit {
         this.listEnergeticos.push(row);
         this.Alimentos.forEach(aux => {
           if (aux.AlimentoId === row.AlimentoId) {
-              this.elegidoE = row.AlimentoId;
+            this.menuForm.patchValue({selectListE: row});
           }
         });
 
@@ -249,7 +258,7 @@ export class MainComponent implements OnInit {
         this.listReguladores.push(row);
         this.Alimentos.forEach(aux => {
           if (aux.AlimentoId === row.AlimentoId) {
-              this.elegidoR = row.AlimentoId;
+            this.menuForm.patchValue({selectListR: row});
           }
         });
 
@@ -258,15 +267,34 @@ export class MainComponent implements OnInit {
     this.spinner.hide();
   }
 
+  get selectHijo() {
+    return this.menuForm.get('selectHijo');
+  }
+
+  changeHijo() {
+      this.noHijo = false;
+  }
+
   declinar() {
     this.menu = false;
   }
 
   pedir() {
-    console.log(this.valueSelectP);
-    console.log(this.valueSelectL);
-    console.log(this.valueSelectE );
-    console.log(this.valueSelectR);
+
+    this.selectListP = this.menuForm.get('selectListP').value;
+    this.selectListL = this.menuForm.get('selectListL').value;
+    this.selectListE = this.menuForm.get('selectListE').value;
+    this.selectListR = this.menuForm.get('selectListR').value;
+    let selectHijo: Hijo = this.selectHijo.value;
+    if ( selectHijo.HijoNombre === null || selectHijo.HijoNombre === undefined ) {
+      this.noHijo = true;
+    }
+    console.log(this.selectListP.AlimentoNombre);
+    console.log(this.selectListL.AlimentoNombre);
+    console.log(this.selectListE.AlimentoNombre);
+    console.log(this.selectListR.AlimentoNombre);
+    console.log(selectHijo.HijoNombre);
+
   }
 
 }
