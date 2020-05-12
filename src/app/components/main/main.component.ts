@@ -89,6 +89,7 @@ export class MainComponent implements OnInit {
   }
 
   tieneHijos(): void {
+    this.spinner.show();
     this.hijos = false;
     let usertoken = localStorage.getItem('usertoken');
     if (usertoken !== '') {
@@ -175,6 +176,7 @@ export class MainComponent implements OnInit {
       this.responseHijo = results;
       if (this.responseHijo.gx_md5_hash !== '') {
         this.hijos = true;
+        this.tieneHijos();
         this.spinner.hide();
       }
     }, error => {
