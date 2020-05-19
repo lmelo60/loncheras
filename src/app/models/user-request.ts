@@ -6,4 +6,5 @@ export interface UserRequest {
     UsuarioFechaNacimiento: string;
     UsuarioNombre: string;
     UsuarioPassword: string;
+    RoleId: number;
 }

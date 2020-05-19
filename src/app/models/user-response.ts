@@ -1,4 +1,6 @@
 export interface UserResponse {
+    RoleId: number;
+    RoleNombre: string;
     UsuarioApellido: string;
     UsuarioCelular: string;
     UsuarioCorreo: string;

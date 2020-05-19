@@ -49,7 +49,8 @@ export class CreateAccountComponent implements OnInit {
       UsuarioDireccion: this.myForm.get('direccion').value + this.myForm.get('complementario').value,
       UsuarioFechaNacimiento: '1994-10-24',
       UsuarioNombre: this.myForm.get('nombre').value,
-      UsuarioPassword: this.myForm.get('passwords.contrasena').value
+      UsuarioPassword: this.myForm.get('passwords.contrasena').value,
+      RoleId: 0
     };
 
     this.signUser = this.service.createNewUser(request);

@@ -1,3 +1,8 @@
 export interface LoginResponse {
-    Respuesta: string;
+    Respuesta: Respuesta;
+}
+
+export interface Respuesta {
+    RoleId: number;
+    UsuarioId: string;
 }

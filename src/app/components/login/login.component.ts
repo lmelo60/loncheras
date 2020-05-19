@@ -49,17 +49,19 @@ export class LoginComponent implements OnInit {
     this.loginUser = this.service.login(request);
     this.loginUser.subscribe( results => {
       this.response = results;
-      if (this.response.Respuesta !== '' && this.response.Respuesta !== 'Usuario no existe, UsuarioId: 0') {
+      if (this.response.Respuesta.RoleId === 0  && this.response.Respuesta.UsuarioId !== '0') {
         this.errorLogin = false;
         this.loginDate = new Date();
         this.loginDate = this.datePipe.transform(this.loginDate, 'dd-MM-yyyy HH:mm:ss');
-        const splitted = this.response.Respuesta.split(':', 2);
-        let usertoken = this.loginDate + ';' + splitted['1'].replace(/\s/g, '');
+        let usertoken = this.loginDate + ';' + this.response.Respuesta.UsuarioId;
         console.log(usertoken);
         usertoken = btoa(usertoken);
         localStorage.setItem('usertoken', usertoken);
         this.spinner.hide();
         this.router.navigate(['inicio/principal']);
+      } else if (this.response.Respuesta.RoleId === 0) {
+        this.spinner.hide();
+        this.router.navigate(['inicio/gestion']);
       } else {
         this.errorLogin = true;
         this.spinner.hide();

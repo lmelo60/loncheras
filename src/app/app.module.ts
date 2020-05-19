@@ -15,6 +15,7 @@ import { CreateAccountComponent } from './components/create-account/create-accou
 import { MainComponent } from './components/main/main.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { InfoUserComponent } from './components/info-user/info-user.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { InfoUserComponent } from './components/info-user/info-user.component';
     CreateAccountComponent,
     MainComponent,
     NavbarComponent,
-    InfoUserComponent
+    InfoUserComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
