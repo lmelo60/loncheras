@@ -1,7 +1,7 @@
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-clip-rotate-pulse"></ngx-spinner>
 <app-navbar></app-navbar>
 <div class="inner">
-    <div>
+    <div *ngIf="!cambioPantalla">
         <div class="form-group">
             <h5 class="card-title">Administración de Combos</h5>
         </div>
@@ -10,7 +10,7 @@
         </div>
         <br>
         <div class="container" style="text-align: center;">
-            <button type="submit" class="btn btn-success">Crear Combo</button>
+            <button type="submit" class="btn btn-success" (click)='redirect()'>Crear Combo</button>
         </div>
         <br>
         <br>
@@ -38,4 +38,107 @@
         </table>
         <br>
     </div>
+    <form [formGroup]="myForm" *ngIf="cambioPantalla">
+        <div class="form-group">
+            <h5 class="card-title">Agregar el Combo</h5>
+        </div>
+        <div>
+            <span>Agregue el combo deseado.</span>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="nombre">Nombre Combo</label>
+            <input type="text" formControlName="nombre" class="form-control" id="nombre">
+            <div *ngIf="isPersonalDataFieldValid('nombre')">
+                <span class="text-danger">Error en campo</span>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm">
+                <div class="card">
+                    <img class="card-img-top" src="../../../assets/img/proteina.jpg" height="90" width="200" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Proteínas</h5>
+                    </div>
+                    <div class="card-body">
+                        <select class="form-control field-click custom-select" required formControlName="selectListP">
+                            <option *ngFor="let item of listProteinas" [ngValue]="item">{{item.AlimentoNombre}}</option>
+                        </select>
+                        <div *ngIf="isPersonalDataFieldValid('selectListP')">
+                            <span class="text-danger">Error en campo</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <img class="card-img-top" src="../../../assets/img/liquido.jpg" height="90" width="200" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Líquidos</h5>
+                    </div>
+                    <div class="card-body">
+                        <select class="form-control field-click custom-select" required formControlName="selectListL">
+                            <option *ngFor="let item of listLiquidos" [ngValue]="item">{{item.AlimentoNombre}}</option>
+                        </select>
+                        <div *ngIf="isPersonalDataFieldValid('selectListL')">
+                            <span class="text-danger">Error en campo</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <img class="card-img-top" src="../../../assets/img/energetico.jpg" height="90" width="200" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Energéticos</h5>
+                    </div>
+                    <div class="card-body">
+                        <select class="form-control field-click custom-select" required formControlName="selectListE">
+                            <option *ngFor="let item of listEnergeticos" [ngValue]="item">{{item.AlimentoNombre}}</option>
+                        </select>
+                        <div *ngIf="isPersonalDataFieldValid('selectListE')">
+                            <span class="text-danger">Error en campo</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+
+            <div class="col-sm">
+                <div class="card">
+                    <img class="card-img-top" src="../../../assets/img/regulador.jpg" width="200" height="90" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Reguladores</h5>
+                    </div>
+                    <div class="card-body">
+                        <select class="form-control field-click custom-select" required formControlName="selectListR">
+                            <option *ngFor="let item of listReguladores" [ngValue]="item">{{item.AlimentoNombre}}</option>
+                        </select>
+                        <div *ngIf="isPersonalDataFieldValid('selectListR')">
+                            <span class="text-danger">Error en campo</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm" style="text-align: center;">
+                    <button type="submit" [disabled]="!myForm.valid" class="btn btn-success" (click)='agregar()'>Agregar</button>
+                </div>
+                <div class="col-sm" style="text-align: center;">
+                    <button type="submit" class="btn btn-success" (click)='volver()'>Volver</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
