@@ -8,34 +8,25 @@
         <div>
             <span>Aqui podra visualizar los pedidos realizados.</span>
         </div>
+        <br>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Hijo</th>
+                    <th scope="col">Lonchera</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
+                <tr *ngFor="let solicitud of responsePedidos">
+                    <td class="verticalC">{{solicitud.UsuarioNombre}}</td>
+                    <td class="verticalC">{{solicitud.HijoNombre}}</td>
+                    <td>
+                        <ul class="list-group list-group-flush" *ngFor="let alimento of solicitud.TipoAlimento">
+                            <li class="list-group-item"><b>{{alimento.AlimentoNombre}}</b></li>
+                        </ul>
+                    </td>
                 </tr>
             </tbody>
         </table>
