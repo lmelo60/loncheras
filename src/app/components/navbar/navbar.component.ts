@@ -8,14 +8,25 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  adminFlag: boolean;
+
+  constructor(private router: Router) {
+    if (localStorage.getItem('flag') === '0') {
+      this.adminFlag = true;
+    } else {
+      this.adminFlag = false;
+    }
+  }
 
   ngOnInit(): void {
   }
 
   closeSesion() {
-    localStorage.removeItem('usertoken');
-    localStorage.removeItem('hijos');
+    if (!this.adminFlag) {
+      localStorage.removeItem('usertoken');
+      localStorage.removeItem('hijos');
+    }
+    localStorage.removeItem('flag');
     this.router.navigate(['inicio']);
   }
 
@@ -25,6 +36,18 @@ export class NavbarComponent implements OnInit {
 
   combos() {
     this.router.navigate(['inicio/principal']);
+  }
+
+  listarpedidos() {
+    this.router.navigate(['inicio/gestion']);
+  }
+
+  adminMenus() {
+    this.router.navigate(['inicio/gMenu']);
+  }
+
+  adminFood() {
+    this.router.navigate(['inicio/gAlimentos']);
   }
 
 }

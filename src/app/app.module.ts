@@ -16,6 +16,8 @@ import { MainComponent } from './components/main/main.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { InfoUserComponent } from './components/info-user/info-user.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { FoodsComponent } from './components/foods/foods.component';
+import { MenuManageComponent } from './components/menu-manage/menu-manage.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { AdminComponent } from './components/admin/admin.component';
     MainComponent,
     NavbarComponent,
     InfoUserComponent,
-    AdminComponent
+    AdminComponent,
+    FoodsComponent,
+    MenuManageComponent
   ],
   imports: [
     BrowserModule,

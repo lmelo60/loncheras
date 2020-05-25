@@ -5,6 +5,8 @@ import { MainComponent } from './components/main/main.component';
 import { LoginComponent } from './components/login/login.component';
 import { InfoUserComponent } from './components/info-user/info-user.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { MenuManageComponent } from './components/menu-manage/menu-manage.component';
+import { FoodsComponent } from './components/foods/foods.component';
 
 const routes: Routes = [
   { path: 'inicio', component: LoginComponent },
@@ -12,6 +14,8 @@ const routes: Routes = [
   { path: 'inicio/principal', component: MainComponent },
   { path: 'inicio/datosPersonales', component: InfoUserComponent },
   { path: 'inicio/gestion', component: AdminComponent },
+  { path: 'inicio/gMenu', component: MenuManageComponent },
+  { path: 'inicio/gAlimentos', component: FoodsComponent },
   { path: '**', pathMatch: 'full', redirectTo: 'inicio' },
 ];
 

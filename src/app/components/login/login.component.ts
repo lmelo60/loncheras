@@ -57,10 +57,12 @@ export class LoginComponent implements OnInit {
         console.log(usertoken);
         usertoken = btoa(usertoken);
         localStorage.setItem('usertoken', usertoken);
+        localStorage.setItem('flag', '1');
         this.spinner.hide();
         this.router.navigate(['inicio/principal']);
       } else if (this.response.Respuesta.RoleId === 0) {
         this.spinner.hide();
+        localStorage.setItem('flag', '0');
         this.router.navigate(['inicio/gestion']);
       } else {
         this.errorLogin = true;
