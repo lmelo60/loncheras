@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('flag', '1');
         this.spinner.hide();
         this.router.navigate(['inicio/principal']);
-      } else if (this.response.Respuesta.RoleId === 0) {
+      } else if (this.response.Respuesta.RoleId === 1) {
         this.spinner.hide();
         localStorage.setItem('flag', '0');
         this.router.navigate(['inicio/gestion']);
