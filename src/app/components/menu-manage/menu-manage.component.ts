@@ -123,6 +123,21 @@ export class MenuManageComponent implements OnInit {
     });
   }
 
+  borrar(request: string): void {
+    this.spinner.show();
+    let eliminar;
+    eliminar = this.serviceCombo.borrar(request);
+    eliminar.subscribe(results => {
+      this.responseCombo = results;
+      this.obtenerCombos();
+      this.spinner.hide();
+    }, error => {
+      console.log('**********************' + JSON.stringify(error));
+      this.spinner.hide();
+    });
+
+  }
+
   agregar(): void {
     this.spinner.show();
     this.selectListP = this.myForm.get('selectListP').value;

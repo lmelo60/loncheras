@@ -103,6 +103,21 @@ export class FoodsComponent implements OnInit {
     });
   }
 
+  borrar(request: string): void {
+    this.spinner.show();
+    let borrar;
+    borrar = this.serviceGAlimentos.borrar(request);
+    borrar.subscribe(results => {
+      this.responsegAlimento = results;
+      this.spinner.hide();
+      this.obtenerAlimentos();
+    }, error => {
+      console.log('**********************' + JSON.stringify(error));
+      this.spinner.hide();
+    });
+
+  }
+
   agregar(): void {
     this.spinner.show();
     let request: AlimentoRq;

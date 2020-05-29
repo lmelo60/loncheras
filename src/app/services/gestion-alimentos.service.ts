@@ -10,10 +10,12 @@ import { AlimentoRs } from '../models/alimento-response';
 export class GestionAlimentosService {
 
   url = '';
+  urlDelete = '';
 
   constructor(private http: HttpClient) {
     console.log('service ready');
     this.url = 'https://wgsoft.tech/AppLoncheras/rest/Alimento/0';
+    this.urlDelete = 'https://wgsoft.tech/AppLoncheras/rest/Alimento/';
    }
 
    agregar(request: AlimentoRq): Observable<AlimentoRs> {
@@ -29,4 +31,16 @@ export class GestionAlimentosService {
     );
 
    }
+
+   borrar(request: string) {
+
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/json; charset=utf-8'
+    );
+
+    return this.http.delete(this.urlDelete + request,
+      { headers });
+
+  }
 }

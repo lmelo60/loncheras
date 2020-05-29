@@ -27,7 +27,7 @@
                     <td>{{alimento.AlimentoNombre}}</td>
                     <td>{{alimento.TipoAlimentoDescricpcion}}</td>
                     <td>
-                        <button type="submit" class="btn btn-success">Borrar</button>
+                        <button type="submit" (click)='borrar(alimento.AlimentoId)' class="btn btn-success">Borrar</button>
                     </td>
                 </tr>
             </tbody>
