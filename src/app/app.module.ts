@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 // Rutas
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +19,8 @@ import { InfoUserComponent } from './components/info-user/info-user.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { FoodsComponent } from './components/foods/foods.component';
 import { MenuManageComponent } from './components/menu-manage/menu-manage.component';
+import { IdentifierComponent } from './components/identifier/identifier.component';
+import { ChangepassComponent } from './components/changepass/changepass.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { MenuManageComponent } from './components/menu-manage/menu-manage.compon
     InfoUserComponent,
     AdminComponent,
     FoodsComponent,
-    MenuManageComponent
+    MenuManageComponent,
+    IdentifierComponent,
+    ChangepassComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +42,7 @@ import { MenuManageComponent } from './components/menu-manage/menu-manage.compon
     HttpClientModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
+    NgxMaskModule.forRoot(),
     AppRoutingModule
   ],
   providers: [],

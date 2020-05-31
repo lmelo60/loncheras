@@ -26,6 +26,7 @@ export class CreateAccountComponent implements OnInit {
       apellido: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
       celular: [null, Validators.required],
+      fecha: [null, Validators.required],
       direccion: [null, Validators.required],
       complementario: [null, null],
       passwords: this.fb.group({
@@ -47,7 +48,7 @@ export class CreateAccountComponent implements OnInit {
       UsuarioCelular: this.myForm.get('celular').value,
       UsuarioCorreo: this.myForm.get('email').value,
       UsuarioDireccion: this.myForm.get('direccion').value + this.myForm.get('complementario').value,
-      UsuarioFechaNacimiento: '1994-10-24',
+      UsuarioFechaNacimiento: this.myForm.get('fecha').value,
       UsuarioNombre: this.myForm.get('nombre').value,
       UsuarioPassword: this.myForm.get('passwords.contrasena').value,
       RoleId: 0

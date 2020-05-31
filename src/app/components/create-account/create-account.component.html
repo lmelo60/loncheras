@@ -34,6 +34,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="fecha">Fecha Nacimiento*</label>
+                <input type="text" formControlName="fecha" [dropSpecialCharacters]="false" matInput mask="0000-00-00" class="form-control" id="fecha" placeholder="yyyy-mm-dd">
+                <div *ngIf="isPersonalDataFieldValid('fecha')">
+                    <span class="text-danger">Error en campo</span>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="direccion">Dirección*</label>
                 <input type="text" formControlName="direccion" class="form-control" id="direccion">
                 <div *ngIf="isPersonalDataFieldValid('direccion')">
