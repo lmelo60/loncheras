@@ -10,12 +10,13 @@
         </div>
         <br>
 
-        <table class="table">
-            <thead>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col">Usuario</th>
                     <th scope="col">Hijo</th>
                     <th scope="col">Lonchera</th>
+                    <th scope="col">Estado</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,10 @@
                         <ul class="list-group list-group-flush" *ngFor="let alimento of solicitud.TipoAlimento">
                             <li class="list-group-item"><b>{{alimento.AlimentoNombre}}</b></li>
                         </ul>
+                    </td>
+                    <td class="verticalC">
+                        <b class="text-success" *ngIf="solicitud.SolicitudEstado">Entregado</b>
+                        <b class="text-danger" *ngIf="!solicitud.SolicitudEstado">Sin Entregar</b>
                     </td>
                 </tr>
             </tbody>
