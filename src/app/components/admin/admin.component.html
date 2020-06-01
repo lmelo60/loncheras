@@ -17,6 +17,7 @@
                     <th scope="col">Hijo</th>
                     <th scope="col">Lonchera</th>
                     <th scope="col">Estado</th>
+                    <th scope="col">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,6 +32,9 @@
                     <td class="verticalC">
                         <b class="text-success" *ngIf="solicitud.SolicitudEstado">Entregado</b>
                         <b class="text-danger" *ngIf="!solicitud.SolicitudEstado">Sin Entregar</b>
+                    </td>
+                    <td class="verticalC">
+                        <button type="submit" (click)='change(solicitud)' class="btn btn-success">Cambiar estado</button>
                     </td>
                 </tr>
             </tbody>

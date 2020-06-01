@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { SolicitudResponse } from '../../models/solicitud-response';
 import { Observable } from 'rxjs';
 import { error } from 'protractor';
+import { request } from 'http';
 
 @Component({
   selector: 'app-admin',
@@ -20,6 +21,25 @@ export class AdminComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  change(solicitud: SolicitudResponse): void {
+    this.spinner.show();
+    let request: any;
+    let state = (solicitud.SolicitudEstado === true) ? false : true;
+    request = {
+      SolicitudId: solicitud.SolicitudId,
+      Estado: state
+    };
+    let cambiar;
+    cambiar = this.servicePedido.change(request);
+    cambiar.subscribe(results => {
+      this.spinner.hide();
+      this.listarSolicitudes();
+    }, error => {
+      this.spinner.hide();
+    });
+
   }
 
   listarSolicitudes(): void {
